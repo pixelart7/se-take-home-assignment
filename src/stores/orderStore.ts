@@ -31,10 +31,6 @@ export const useOrderStore = defineStore('order', () => {
 
   // --- Getters ---
 
-  // Orders are already maintained in priority order in validPendingOrders, 
-  // but for UI we might just return the list. 
-  // pendingOrders will strictly be the queue.
-
   // --- Actions ---
 
   function addOrder(type: OrderType) {
@@ -155,16 +151,6 @@ export const useOrderStore = defineStore('order', () => {
         const order = activeOrders.get(botToRemove.id)
         if (order) {
           // Restore to pending
-          // Needs to go back to correct priority? 
-          // "The order now back to PENDING and ready to process by other bot."
-          // Usually re-adding it via addOrder logic is safest to ensure priority.
-          // Note: This effectively gives it a new ID if I use addOrder(order.type).
-          // Requirement: "The order number should be unique and increasing".
-          // If I revive it, should it keep the old ID?
-          // "The order now back to PENDING". Suggests same order.
-          // Let's customize addOrder or just manually splice it back.
-
-          // Let's manually splice it back.
           restoreOrder(order)
 
           activeOrders.delete(botToRemove.id)
@@ -184,12 +170,7 @@ export const useOrderStore = defineStore('order', () => {
         pendingOrders.value.unshift(order)
       }
     } else {
-      // Normal
-      // Should it go to back or front of Normals?
-      // Usually if a process fails/aborts, retrying ASAP is nice, so front of Normals.
-      // But spec doesn't strictly say. 
-      // "Back to PENDING".
-      // Let's prepend to Normals to be fair to the victimized order.
+      // Prepend to Normals to be fair to the victimized order.
       // Find first normal
       const firstNormalIndex = pendingOrders.value.findIndex(o => o.type === 'Normal')
       if (firstNormalIndex !== -1) {
