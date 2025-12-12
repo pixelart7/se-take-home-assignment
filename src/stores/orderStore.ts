@@ -13,7 +13,7 @@ export interface Bot {
   id: number
   name: string
   status: 'IDLE' | 'PROCESSING'
-  currentOrderId: number | null
+  currentOrder: Order | null
 }
 
 export const useOrderStore = defineStore('order', () => {
@@ -46,8 +46,6 @@ export const useOrderStore = defineStore('order', () => {
     if (type === 'VIP') {
       // Find the insertion point: after the last VIP
       let insertIndex = pendingOrders.value.length
-      // Workaround for findLastIndex missing in current TS lib config
-      // We map to types and use lastIndexOf which is standard
       const lastVipIndex = pendingOrders.value.map(o => o.type).lastIndexOf('VIP')
 
       if (lastVipIndex !== -1) {
@@ -81,7 +79,7 @@ export const useOrderStore = defineStore('order', () => {
       id: nextBotId.value++,
       name: randomName,
       status: 'IDLE',
-      currentOrderId: null
+      currentOrder: null
     }
 
     bots.value.push(bot)
@@ -108,7 +106,7 @@ export const useOrderStore = defineStore('order', () => {
 
   function startBotProcessing(bot: Bot, order: Order) {
     bot.status = 'PROCESSING'
-    bot.currentOrderId = order.id
+    bot.currentOrder = order
     // We need to remember the order type in case we need to restore it. 
     // Let's modify the Bot interface slightly or just store it in a closure/map?
     // Let's use a map for active orders for simplicity in restoration.
@@ -134,7 +132,7 @@ export const useOrderStore = defineStore('order', () => {
     }
 
     bot.status = 'IDLE'
-    bot.currentOrderId = null
+    bot.currentOrder = null
     botTimers.delete(botId)
 
     // Try to pick up next order

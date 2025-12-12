@@ -11,7 +11,7 @@ defineProps<{
 <template>
   <div 
     class="flex flex-col p-3 rounded-lg border min-h-24 relative overflow-hidden"
-    :class="order.type === 'VIP' ? 'bg-amber-50 border-amber-200' : 'bg-gray-50 border-gray-100'"
+    :class="order.type === 'VIP' ? 'bg-amber-50 border-amber-300' : 'bg-gray-50 border-gray-100'"
   >
     <div class="flex justify-between z-10 w-full">
       <div class="flex-1">
