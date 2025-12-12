@@ -101,17 +101,17 @@ const { addOrder, addBot, removeBot } = store
               </span>
             </div>
             
-            <div class="mt-2 min-h-[60px] flex items-center justify-center">
-              <transition name="list">
+            <div class="mt-2 flex-1 relative">
+              <transition name="fade">
                 <OrderCard 
                   v-if="bot.status === 'PROCESSING' && bot.currentOrder" 
                   :key="bot.currentOrder.id"
                   :order="bot.currentOrder" 
                   status="COOKING"
                   :is-processing="true"
-                  class="w-full"
+                  class="w-full absolute inset-0"
                 />
-                <p v-else class="text-sm text-gray-400 italic">Waiting for orders...</p>
+                <p v-else class="text-sm text-gray-400 italic absolute inset-0">Waiting for orders...</p>
               </transition>
             </div>
           </div>
@@ -163,5 +163,15 @@ const { addOrder, addBot, removeBot } = store
 .list-leave-active {
   position: absolute;
   width: 100%;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
