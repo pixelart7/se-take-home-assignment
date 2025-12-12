@@ -74,7 +74,7 @@ export const useOrderStore = defineStore('order', () => {
   }
 
   function addBot() {
-    const names = ['McBot', 'BurgerBot', 'FryGuy', 'ShakeMaster', 'NuggetNet', 'BigMacMachine', 'SundaesBot', 'HappyMealBot']
+    const names = ['McBot', 'BurgerBot', 'FryGuy', 'ShakeMaster', 'NuggetNet', 'BigMcMachine', 'SundaesBot', 'HappyMealBot', 'McMuffinFace', 'Botger']
     const randomName = names[Math.floor(Math.random() * names.length)] ?? 'Bot'
 
     const bot: Bot = {
