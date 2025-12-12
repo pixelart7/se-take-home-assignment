@@ -48,7 +48,7 @@ const { addOrder, addBot, removeBot } = store
         </div>
         
         <div class="bg-white p-4 rounded-xl shadow-sm min-h-32 border border-gray-200">
-          <transition-group name="list" tag="div" class="grid grid-cols-4 gap-4">
+          <transition-group name="list" tag="div" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             <OrderCard v-for="order in pendingOrders" 
             :key="order.id"
             class="contents" :order="order" status="PENDING" />
@@ -117,7 +117,7 @@ const { addOrder, addBot, removeBot } = store
           </div>
         </div>
         
-        <div v-if="bots.length === 0" class="text-center py-8 bg-gray-50 rounded-xl border border-dashed border-gray-300 text-gray-400 text-xs italic">
+        <div v-if="bots.length === 0" class="text-center flex items-center justify-center py-8 bg-gray-50 min-h-40 rounded-xl border border-dashed border-gray-300 text-gray-400 text-xs italic">
           No active bots. Add a bot to start cooking! 🤖
         </div>
       </section>
@@ -125,18 +125,17 @@ const { addOrder, addBot, removeBot } = store
       <!-- Completed Orders -->
       <section class="px-4 mt-8">
         <h2 class="font-semibold text-gray-700 mb-4">Completed Orders</h2>
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 max-h-[300px] overflow-y-auto">
-          <ul class="divide-y divide-gray-100">
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 max-h-[500px] overflow-y-auto">
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
              <!-- Show only last 20 reversed -->
-            <li 
+            <OrderCard 
               v-for="order in completedOrders.slice().reverse().slice(0, 50)" 
               :key="order.id"
-              class="py-2 flex items-center justify-between"
-            >
-              <span class="text-gray-600 text-xs font-medium">Order #{{ order.id }}</span>
-              <span class="px-2 py-1 bg-green-50 text-green-700 text-xs font-semibold rounded-full">COMPLETED</span>
-            </li>
-          </ul>
+              :order="order"
+              status="COMPLETED"
+              class="w-full"
+            />
+          </div>
            <div v-if="completedOrders.length === 0" class="text-center text-xs text-gray-400 py-4 italic">
             No completed orders yet
           </div>
