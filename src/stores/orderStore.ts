@@ -161,14 +161,8 @@ export const useOrderStore = defineStore('order', () => {
 
   function restoreOrder(order: Order) {
     if (order.type === 'VIP') {
-      // Insert after last VIP
-      const lastVipIndex = pendingOrders.value.map(o => o.type).lastIndexOf('VIP')
-      if (lastVipIndex !== -1) {
-        pendingOrders.value.splice(lastVipIndex + 1, 0, order)
-      } else {
-        // No VIPs, insert at head (before normals)
-        pendingOrders.value.unshift(order)
-      }
+      // Insert at front of VIP line (which is front of the queue)
+      pendingOrders.value.unshift(order)
     } else {
       // Prepend to Normals to be fair to the victimized order.
       // Find first normal
